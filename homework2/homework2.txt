@@ -1,0 +1,377 @@
+1.
+
+#저장소 만들기
+
+Repository name에 저장소 이름을 쓰고, Description에 저장소에 대한 설명을 작성
+
+README를 만들면, 저장소에 대한 상세 설명 등을 쓸 수 있다
+
+.gitignore 파일을 통해 해당 저장소에 파일을 업데이트 할 때, 무시할 파일에 대한 정보를 제공할수있다
+
+ 
+
+#저장고 업데이트하기
+
+git clone - 저장소 가져오기
+
+git remote - 저장소 URL 설정하기
+
+git status - 상태확인
+
+git add+commit - 수정 사항 확정하기
+
+git push - 수정 사항을 저장소에 반영하기
+
+git pull - 수정된 저장소 내용 불러오기
+
+ 
+
+#기본용어
+
+커맨드 라인 - 깃 명령어 입력하는 프로그램
+
+저장소 - 프로젝트가 거주할 수 있는 저장공간
+
+버전관리 - 스냅샷을 유지하므로 잃어버리거나 겹쳐쓰지 않을 수있다.
+
+커밋 - 재펴가하거나 복원할 수 있는 체크포인트를 가질 수 있다.
+
+브랜치 - 자신이 변경하고 싶은 버전을 만들고 master에 병합한다
+
+ 
+
+#주요 명령어
+
+git init - 깃 저장소 초기화
+
+git config - 처음에 깃을 설정
+
+git help - 깃명령어가 나타난다
+
+git status - 저장소 상태를 체크
+
+git add - 깃이 새 화일들을 지켜보게 한다.
+
+git commit - 변경사항을 만든 후 스냅샷을 찍기 위해 입력
+
+git branch - 커밋 타임라인을 만든다.
+
+git checkout - 현재 위치하고 있지 않은 저장소를 체크아웃 할 수 있다.
+
+git merge - 병합하기
+
+git push - 커밋을 온라인으로 볼 수 있기를 원할 때
+
+git pull - 저장소의 최신버전을 원할 때
+
+ 
+
+2.
+
+>>> 1+2
+
+3
+
+>>> 100-1
+
+99
+
+>>> 7*33
+
+231
+
+>>> 100/10
+
+10.0
+
+>>> 1/2
+
+0.5
+
+>>> 2//3
+
+0
+
+>>> 7%3
+
+1
+
+>>> 9%3
+
+0
+
+>>> 4%2.1
+
+1.9
+
+>>> 3**2
+
+9
+
+>>> pi=3.14159265
+
+>>> pi*4**2
+
+50.2654824
+
+>>> print(pi)
+
+3.14159265
+
+>>> r=7
+
+>>> area=pi*7**2
+
+>>> print(area)
+
+153.93803985000002
+
+>>> r=11
+
+>>> print(area)
+
+153.93803985000002
+
+>>> area=pi*r**2
+
+>>> print(area)
+
+380.13271065000004
+
+>>> name="조"
+
+>>> print(name)
+
+조
+
+>>> type(r)
+
+<class 'int'>
+
+>>> type(area)
+
+<class 'float'>
+
+>>> type(name)
+
+<class 'str'>
+
+>>> 10=10
+
+SyntaxError: cannot assign to literal
+
+>>> 10==10
+
+True
+
+>>> 10>10
+
+False
+
+>>> a=10>10
+
+>>> type(a)
+
+<class 'bool'>
+
+>>> name*3
+
+'조조조'
+
+>>> name2="hyun"
+
+>>> name2[3]
+
+'n'
+
+>>> title="python 2d game programming"
+
+>>> title[0:6]
+
+'python'
+
+>>> title[:6]
+
+'python'
+
+>>> title[::1]
+
+'python 2d game programming'
+
+>>> title[::2]
+
+'pto dgm rgamn'
+
+>>> title[3:10]
+
+'hon 2d '
+
+>>> blackpink=['jisu','jeni','rose','risa']
+
+>>> blackpink.append('momo')
+
+>>> blackpink
+
+['jisu', 'jeni', 'rose', 'risa', 'momo']
+
+>>> blackpink.sort()
+
+>>> blackpink
+
+['jeni', 'jisu', 'momo', 'risa', 'rose']
+
+>>> len(blackpink)
+
+5
+
+>>> twice=['sana','zwi']
+
+>>> 
+
+>>> uni=twice+blackpink
+
+>>> uni.remove('momo')
+
+>>> uni
+
+['sana', 'zwi', 'jeni', 'jisu', 'risa', 'rose']
+
+>>> uni[::2]
+
+['sana', 'jeni', 'risa']
+
+>>> score={'momo':80,'zwi':85}
+
+>>> type(score)
+
+<class 'dict'>
+
+>>> score['sana']=90
+
+>>> score['zwi']
+
+85
+
+>>> score
+
+{'momo': 80, 'zwi': 85, 'sana': 90}
+
+>>> del score['momo']
+
+>>> score
+
+{'zwi': 85, 'sana': 90}
+
+>>> score.keys()
+
+dict_keys(['zwi', 'sana'])
+
+>>> score.values()
+
+dict_values([85, 90])
+
+>>> 'momo'in score
+
+False
+
+>>> score.clear()
+
+>>> score
+
+{}
+
+>>> t1=(1,2,3)
+
+>>> type(t1)
+
+<class 'tuple'>
+
+>>> t1[1:]
+
+(2, 3)
+
+>>> t2=(1,'a',"aa",(1,2))
+
+>>> t1+t2
+
+(1, 2, 3, 1, 'a', 'aa', (1, 2))
+
+>>> t1*t2
+
+Traceback (most recent call last):
+
+  File "<pyshell#72>", line 1, in <module>
+
+    t1*t2
+
+TypeError: can't multiply sequence by non-int of type 'tuple'
+
+>>> t2*2
+
+(1, 'a', 'aa', (1, 2), 1, 'a', 'aa', (1, 2))
+
+>>> s1={1,2,3}
+
+>>> type(s1)
+
+<class 'set'>
+
+>>> s1={1,1,1,1,1,1,1,1}
+
+>>> s1
+
+{1}
+
+>>> l1=[1,2,2,3,3,3]
+
+>>> set(l1)
+
+{1, 2, 3}
+
+>>> s2={4,5,6}
+
+>>> s1+s2
+
+Traceback (most recent call last):
+
+  File "<pyshell#81>", line 1, in <module>
+
+    s1+s2
+
+TypeError: unsupported operand type(s) for +: 'set' and 'set'
+
+>>> s1|s2
+
+{1, 4, 5, 6}
+
+>>> s1&s2
+
+set()
+
+>>> s1={1,2,3,4}
+
+>>> s1&s2
+
+{4}
+
+>>> s2-s1
+
+{5, 6}
+
+>>> s1.add(8)
+
+>>> s1
+
+{1, 2, 3, 4, 8}
+
+>>> s2.remove(6)
+
+>>> s2
+
+{4, 5}
+
+>>> 
+
+ 
+
+파이썬이 문법이 간결하지만 간결한 문장안에 기능은 많아서 인간과 친숙한 언어라는 것을 느꼈습니다. 특히 [],{},()이 다 다른 컨테이너라는 것이 정의해서 사용하는 것보다 간결해서 좋았습니다.
