@@ -14,18 +14,20 @@ def enter():
     gfw.world.init(['bg', 'monster', 'unit'])
     Monster.load_all_images()
 
-    global unit
-    global unit2
     global selectedUnit
 
     if load():
         unit = gfw.world.object(gfw.layer.unit, 0)
     else:
-        unit = Unit(gfw.image.load(gobj.RES_DIR + '/Ace_run.png'), (get_canvas_width() // 2 + 100, get_canvas_height() // 2), [0, 78, 144, 207, 256, 321, 389, 452])
-        unit2 = Unit(gfw.image.load(gobj.RES_DIR + '/MonkeyDLuffy_run.png'), (get_canvas_width() // 2, get_canvas_height() // 2), [0, 45, 100, 165, 218, 261, 317, 381])
+        unit = Unit(gfw.image.load(gobj.RES_DIR + '/Ace_run.png'), (get_canvas_width() // 2 + 100, get_canvas_height() // 2), [0, 78, 144, 207, 256, 321, 389, 452, 513])
+        unit2 = Unit(gfw.image.load(gobj.RES_DIR + '/MonkeyDLuffy_run.png'), (get_canvas_width() // 2, get_canvas_height() // 2), [0, 45, 100, 165, 218, 261, 317, 381, 441])
+        unit3 = Unit(gfw.image.load(gobj.RES_DIR + '/Akainu_run.png'), (get_canvas_width() // 2 -100, get_canvas_height() // 2), [0, 51, 106, 170, 232, 285, 338, 396, 445])
+        unit4 = Unit(gfw.image.load(gobj.RES_DIR + '/Aokiji_run.png'), (get_canvas_width() // 2, get_canvas_height() // 2-100), [0, 54, 116, 193, 261, 319, 370, 420, 478])
         selectedUnit = unit
         gfw.world.add(gfw.layer.unit, unit)
         gfw.world.add(gfw.layer.unit, unit2)
+        gfw.world.add(gfw.layer.unit, unit3)
+        gfw.world.add(gfw.layer.unit, unit4)
 
         bg = gobj.ImageObject('background.jpg', (canvas_width // 2, canvas_height // 2))
         gfw.world.add(gfw.layer.bg, bg)
@@ -55,8 +57,6 @@ def draw():
     # gobj.draw_collision_box()
     
 def handle_event(e):
-    global unit
-    global unit2
     global selectedUnit
     # prev_dx = boy.dx
     if e.type == SDL_QUIT:
@@ -73,9 +73,9 @@ def handle_event(e):
     # unit.handle_event(e)
     # unit2.handle_event(e)
 
-    if e.type == SDL_KEYDOWN and e.key == SDLK_s:
-        gfw.world.save(SAVE_FILENAME)
-        print('Saved to:', SAVE_FILENAME)
+    # if e.type == SDL_KEYDOWN and e.key == SDLK_s:
+    #     gfw.world.save(SAVE_FILENAME)
+    #     print('Saved to:', SAVE_FILENAME)
 
 def exit():
     pass

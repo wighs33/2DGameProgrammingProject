@@ -80,19 +80,19 @@ class Unit:
 
     def handle_event(self, e):
         pair = (e.type, e.key)
-        if pair in Unit.KEY_MAP:
-            if self.target is not None:
-                self.target = None
-                self.delta = 0, 0
-            pdx = self.delta[0]
-            self.delta = gobj.point_add(self.delta, Unit.KEY_MAP[pair])
-            dx = self.delta[0]
-            # self.action = \
-            #     0 if dx < 0 else \
-            #     1 if dx > 0 else \
-            #     2 if pdx < 0 else 3
-            # print(dx, pdx, self.action)
-        elif pair == Unit.KEYDOWN_LSHIFT:
+        # if pair in Unit.KEY_MAP:
+        #     if self.target is not None:
+        #         self.target = None
+        #         self.delta = 0, 0
+        #     pdx = self.delta[0]
+        #     self.delta = gobj.point_add(self.delta, Unit.KEY_MAP[pair])
+        #     dx = self.delta[0]
+        #     self.action = \
+        #         0 if dx < 0 else \
+        #         1 if dx > 0 else \
+        #         2 if pdx < 0 else 3
+        #     print(dx, pdx, self.action)
+        if pair == Unit.KEYDOWN_LSHIFT:
             self.mag *= 2
         elif pair == Unit.KEYUP_LSHIFT:
             self.mag //= 2
