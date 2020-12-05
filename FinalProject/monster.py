@@ -13,7 +13,7 @@ class Monster:
     CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
     images = {}
-    FPS = 12
+    FPS = 10
     # FCOUNT = 10
     def __init__(self):
         if len(Monster.images) == 0:
@@ -22,7 +22,7 @@ class Monster:
         self.pos = 920,60
         self.delta = 0.1, 0.1
         # self.find_nearest_pos()
-        self.char = random.choice(['male', 'female'])
+        self.char = random.choice(['Bulbasaur', 'Ivysaur'])
         self.images = Monster.load_images(self.char)
         self.action = 'Idle'
         self.speed = 100
@@ -184,8 +184,8 @@ class Monster:
     def draw(self):
         images = self.images[self.action]
         image = images[self.fidx % len(images)]
-        flip = 'h' if self.delta[0] < 0 else ''
-        image.composite_draw(0, flip, *self.pos, image.w // 5, image.h // 5)
+        flip = 'h' if self.delta[0] > 0 else ''
+        image.composite_draw(0, flip, *self.pos, image.w, image.h)
         # x,y = self.pos
         # Monster.font.draw(x-40, y+50, self.action + str(round(self.time * 100) / 100))
 

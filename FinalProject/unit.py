@@ -20,9 +20,14 @@ class Unit:
     KEYUP_LSHIFT   = (SDL_KEYUP,   SDLK_LSHIFT)
     image = None
 
+    ACTIONS = ['Attack', 'Idle', 'Walk']
+    IDLE_INTERVAL = 2.0
+    images = {}
+    FPS = 12
+
     #constructor
-    def __init__(self, ImageName, pos,xList):
-        self.pos =pos
+    def __init__(self, ImageName, pos, xList):
+        self.pos = pos
         self.delta = 0, 0
         self.target = None
         self.speed = 200
@@ -33,6 +38,7 @@ class Unit:
         self.action = 0
         self.mag = 1
         self.imageXList = xList
+        # self.build_behavior_tree()
 
     def set_target(self, target):
         x,y = self.pos
@@ -46,20 +52,20 @@ class Unit:
         self.action = 0 if dx < 0 else 1
 
     def draw(self):
-        width, height = self.imageXList[self.fidx+1]-self.imageXList[self.fidx], 100
+        width, height = self.imageXList[self.fidx+1] - self.imageXList[self.fidx], 100
         sx = self.imageXList[self.fidx]
         sy = 0
         self.image.clip_draw(sx, sy, width, 100, *self.pos)
 
     def update(self):
-        x,y = self.pos
-        dx,dy = self.delta
+        x, y = self.pos
+        dx, dy = self.delta
         x += dx * self.speed * self.mag * gfw.delta_time
         y += dy * self.speed * self.mag * gfw.delta_time
 
         done = False
         if self.target is not None:
-            tx,ty = self.target
+            tx, ty = self.target
             if dx > 0 and x >= tx or dx < 0 and x <= tx:
                 x = tx
                 done = True
@@ -71,7 +77,7 @@ class Unit:
             self.target = None
             self.delta = 0, 0
             self.action = 2 if dx < 0 else 3
-        self.pos = x,y
+        self.pos = x, y
 
         self.time += gfw.delta_time
         frame = self.time * 15
@@ -119,3 +125,49 @@ class Unit:
         # self.__init__()
         self.__dict__.update(dict)
         self.image = gfw.image.load(gobj.RES_DIR + '/animation_sheet.png')
+
+    def build_behavior_tree(self):
+        # node_gnp = LeafNode("Get Next Position", self.set_patrol_target)
+        # node_mtt = LeafNode("Move to Target", self.update_position)
+        # patrol_node = SequenceNode("Patrol")
+        # patrol_node.add_children(node_gnp, node_mtt)
+        # self.bt = BehaviorTree(patrol_node)
+
+        self.bt = BehaviorTree.build({
+            "name": "PatrolChase",
+            "class": SelectorNode,
+            "children": [
+                {
+                    "class": LeafNode,
+                    "name": "Idle",
+                    "function": self.do_idle,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Dead",
+                    "function": self.do_dead,
+                },
+                #{
+                #    "name": "Chase",
+                #    "class": SequenceNode,
+                #    "children": [
+                        #{
+                        #    "class": LeafNode,
+                        #    "name": "Find Unit",
+                        #    "function": self.find_unit,
+                        #},
+                        #{
+                        #    "class": LeafNode,
+                        #    "name": "Move to Unit",
+                        #    "function": self.move_to_unit,
+                        #},
+                #    ],
+                #},
+                {
+                    "class": LeafNode,
+                    "name": "Follow Patrol positions",
+                    "function": self.follow_patrol_positions,
+                },
+            ],
+        })
+

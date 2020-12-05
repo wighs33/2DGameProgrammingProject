@@ -54,7 +54,7 @@ def update():
 
 def draw():
     gfw.world.draw()
-    # gobj.draw_collision_box()
+    gobj.draw_collision_box()
     
 def handle_event(e):
     global selectedUnit
@@ -70,8 +70,6 @@ def handle_event(e):
         if hasattr(selectTmp, 'handle_event'):
             selectedUnit = selectTmp
     selectedUnit.handle_event(e)
-    # unit.handle_event(e)
-    # unit2.handle_event(e)
 
     # if e.type == SDL_KEYDOWN and e.key == SDLK_s:
     #     gfw.world.save(SAVE_FILENAME)
@@ -81,4 +79,4 @@ def exit():
     pass
 
 if __name__ == '__main__':
-    gfw.run_main()
+    print("This file is not supposed to be executed directly.")
