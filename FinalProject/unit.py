@@ -36,7 +36,6 @@ class Unit:
         self.time = 0
         self.fidx = 0
         self.action = 0
-        self.mag = 1
         self.imageXList = xList
         # self.build_behavior_tree()
 
@@ -60,8 +59,8 @@ class Unit:
     def update(self):
         x, y = self.pos
         dx, dy = self.delta
-        x += dx * self.speed * self.mag * gfw.delta_time
-        y += dy * self.speed * self.mag * gfw.delta_time
+        x += dx * self.speed * gfw.delta_time
+        y += dy * self.speed * gfw.delta_time
 
         done = False
         if self.target is not None:
@@ -98,10 +97,6 @@ class Unit:
         #         1 if dx > 0 else \
         #         2 if pdx < 0 else 3
         #     print(dx, pdx, self.action)
-        if pair == Unit.KEYDOWN_LSHIFT:
-            self.mag *= 2
-        elif pair == Unit.KEYUP_LSHIFT:
-            self.mag //= 2
 
         if e.type == SDL_MOUSEBUTTONDOWN:
             self.set_target((e.x, get_canvas_height() - e.y - 1))

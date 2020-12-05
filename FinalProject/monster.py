@@ -9,7 +9,7 @@ class Monster:
         (278, 244), (601, 158), (926, 236), (1041, 528), 
         (916, 844), (606, 882), (286, 825), (153, 542)
     ]
-    ACTIONS = ['Attack', 'Dead', 'Idle', 'Walk']
+    ACTIONS = ['Dead', 'Idle', 'Walk']
     CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
     images = {}
@@ -191,7 +191,7 @@ class Monster:
 
     def get_bb(self):
         x,y = self.pos
-        return x - 40, y - 50, x + 40, y + 40
+        return x - 20, y - 20, x + 20, y + 20
 
     def __getstate__(self):
         dict = self.__dict__.copy()
