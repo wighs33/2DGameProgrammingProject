@@ -6,17 +6,19 @@ from unit2 import Unit2
 from monster import Monster
 import gobj
 import life_gauge
+import gameclear
 
-canvas_width = 1200
-canvas_height = 1020
+canvas_width = 1000
+canvas_height = 900
 
 SAVE_FILENAME = 'monsters.pickle'
 
 def enter():
-    gfw.world.init(['bg', 'monster', 'unit', 'unit2'])
+    gfw.world.init(['bg', 'monster', 'unit', 'unit2', "gameclear"])
     Monster.load_all_images()
     Unit2.load_all_images()
     life_gauge.load()
+    gameclear.load()
 
     global selectedUnit
 
@@ -40,7 +42,7 @@ def enter():
     global monster_level
     monster_level = 1
     global monster_level_up_time
-    monster_level_up_time = 49
+    monster_level_up_time = 50
     global unit_time
     unit_time = 50
 
@@ -55,7 +57,7 @@ def load():
 
 def check_monster(mon):
     for u2 in gfw.gfw.world.objects_at(gfw.layer.unit2):
-        if gobj.collides_box(u2, mon):
+        if gobj.attack_box(u2, mon):
             if u2.action == 'Attack':
                 # print('Collision', e, b)
                 dead = mon.decrease_life(u2.power)
@@ -69,15 +71,22 @@ def update():
     global monster_time
     global monster_level_up_time
     global monster_level
+    global isclear
     monster_time -= gfw.delta_time
     monster_level_up_time -= gfw.delta_time
     if monster_time <= 0:
-        gfw.world.add(gfw.layer.monster, Monster(monster_level))
         if monster_level_up_time <= 0:
             monster_level += 1
-            monster_level_up_time = 49
+            if monster_level == 2:
+                isclear = True
+                end_game()
+            monster_level_up_time = 50
+        gfw.world.add(gfw.layer.monster, Monster(monster_level))
         monster_time = 5
 
+    if gfw.world.count_at(gfw.layer.monster) >= 50:
+        isclear = False
+        end_game()
     global unit_time
     global unit2
     unit_time -= gfw.delta_time
@@ -92,7 +101,7 @@ def draw():
     gfw.world.draw()
     gobj.draw_collision_box()
     gobj.draw_attack_box()
-    font.draw(canvas_width//2-100, canvas_height - 60, 'Stage: %d' % monster_level)
+    font.draw(canvas_width//2-100, canvas_height - 60, 'Stage %d' % monster_level)
     
 def handle_event(e):
     global selectedUnit
@@ -104,7 +113,7 @@ def handle_event(e):
             gfw.pop()
 
     if e.type == SDL_MOUSEBUTTONDOWN:
-        # unit2.handle_event(e)
+        if gameclear.is_click_continue(e): gfw.world.clear_at(gfw.layer.gameclear)
         selectTmp=gobj.select_unit(e)
         if hasattr(selectTmp, 'handle_event'):
             selectedUnit = selectTmp
@@ -113,6 +122,11 @@ def handle_event(e):
     # if e.type == SDL_KEYDOWN and e.key == SDLK_s:
     #     gfw.world.save(SAVE_FILENAME)
     #     print('Saved to:', SAVE_FILENAME)
+
+def end_game():
+    global isclear
+    if isclear: gameclear.add()
+    gfw.world.add(gfw.layer.gameclear, gameclear)
 
 def exit():
     pass

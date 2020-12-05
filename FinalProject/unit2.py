@@ -30,7 +30,7 @@ class Unit2:
         self.patrol_order = -1
         self.build_behavior_tree()
 
-        self.power = 1
+        self.power = 20
 
     def set_target(self, target):
         x,y = self.pos
@@ -193,6 +193,7 @@ class Unit2:
 
         if e.type == SDL_MOUSEBUTTONDOWN:
             self.set_target((e.x, get_canvas_height() - e.y - 1))
+            print("(",e.x,",", get_canvas_height() - e.y - 1,")")
 
     def remove(self):
         gfw.world.remove(self)

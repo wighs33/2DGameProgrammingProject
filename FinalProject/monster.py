@@ -6,10 +6,7 @@ from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 import life_gauge
 
 class Monster:
-    PAT_POSITIONS = [
-        (278, 244), (601, 158), (926, 236), (1041, 528), 
-        (916, 844), (606, 882), (286, 825), (153, 542)
-    ]
+    PAT_POSITIONS = [(242, 219), (502, 138), (793, 234), (877, 452), (799, 711), (499, 772), (202, 695), (118, 465)]
     ACTIONS = ['Dead', 'Idle', 'Walk']
     CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
@@ -20,11 +17,11 @@ class Monster:
         if len(Monster.images) == 0:
             Monster.load_all_images()
 
-        self.pos = 920,60
+        self.pos = 763 , 37
         self.delta = 0.1, 0.1
         # self.find_nearest_pos()
         self.level = level
-        self.max_life = level * 100
+        self.max_life = level * 5000
         self.life = self.max_life
         self.strong_monster_by_level()
         self.images = Monster.load_images(self.char)
