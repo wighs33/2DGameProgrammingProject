@@ -30,6 +30,8 @@ class Unit2:
         self.patrol_order = -1
         self.build_behavior_tree()
 
+        self.power = 1
+
     def set_target(self, target):
         x,y = self.pos
         tx,ty = target
@@ -82,7 +84,7 @@ class Unit2:
             self.action = 'Walk'
             return BehaviorTree.FAIL
         for mon in gfw.world.objects_at(gfw.layer.monster):
-            if gobj.collides_box(mon, self):
+            if gobj.attack_box(self, mon):
                 self.action = 'Attack'
                 self.time = 0
                 return BehaviorTree.FAIL
@@ -104,7 +106,6 @@ class Unit2:
         self.time += gfw.delta_time
         self.fidx = round(self.time * Unit2.FPS)
         if self.fidx >= len(self.images['Attack']):
-            print(len(self.images['Attack']))
             self.action = 'Idle'
             return BehaviorTree.FAIL
         return BehaviorTree.SUCCESS
@@ -206,7 +207,11 @@ class Unit2:
 
     def get_bb(self):
         x,y = self.pos
-        return x - 50, y - 50, x + 50, y + 50
+        return x - 30, y - 40, x + 30, y + 40
+
+    def get_attack_range(self):
+        x,y = self.pos
+        return x - 80, y - 80, x + 80, y + 80
 
 
     def __getstate__(self):

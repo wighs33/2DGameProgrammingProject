@@ -29,6 +29,17 @@ def collides_box(a, b):
 
     return True
 
+def attack_box(attacker, mon):
+    (la, ba, ra, ta) = attacker.get_attack_range()
+    (lb, bb, rb, tb) = mon.get_bb()
+
+    if la > rb: return False
+    if ra < lb: return False
+    if ba > tb: return False
+    if ta < bb: return False
+
+    return True
+
 def select_unit(e):
     if e.type == SDL_MOUSEBUTTONDOWN:
         for obj in gfw.world.all_objects():
@@ -51,6 +62,10 @@ def draw_collision_box():
     for obj in gfw.world.all_objects():
         if hasattr(obj, 'get_bb'):
             draw_rectangle(*obj.get_bb())
+
+def draw_attack_box():
+    for obj in gfw.world.objects_at(gfw.layer.unit2):
+        draw_rectangle(*obj.get_attack_range())
 
 class ImageObject:
     def __init__(self, imageName, pos):

@@ -3,6 +3,7 @@ from pico2d import *
 import gfw
 import gobj
 from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
+import life_gauge
 
 class Monster:
     PAT_POSITIONS = [
@@ -15,14 +16,17 @@ class Monster:
     images = {}
     FPS = 10
     # FCOUNT = 10
-    def __init__(self):
+    def __init__(self, level):
         if len(Monster.images) == 0:
             Monster.load_all_images()
 
         self.pos = 920,60
         self.delta = 0.1, 0.1
         # self.find_nearest_pos()
-        self.char = random.choice(['Bulbasaur', 'Ivysaur'])
+        self.level = level
+        self.max_life = level * 100
+        self.life = self.max_life
+        self.strong_monster_by_level()
         self.images = Monster.load_images(self.char)
         self.action = 'Idle'
         self.speed = 100
@@ -32,6 +36,17 @@ class Monster:
             self.unit = gfw.world.object(gfw.layer.unit, 0)
         self.patrol_order = -1
         self.build_behavior_tree()
+
+    def strong_monster_by_level(self):
+        self.char = \
+            'Bulbasaur' if self.level == 1 else \
+            'Charmander' if self.level == 2 else \
+            'Squirtle' if self.level == 3 else \
+            'Ivysaur' if self.level == 4 else \
+            'Charmeleon' if self.level == 5 else \
+            'Wartortle' if self.level == 6 else \
+            'Venusaur' if self.level == 7 else \
+            'Charizard' if self.level == 8 else 'Blastoise'
 
     def find_nearest_pos(self):
         x, y = self.pos
@@ -100,6 +115,10 @@ class Monster:
         done = self.update_position()
         if done:
             self.set_patrol_target()
+        if self.life <= 0:
+            self.action = 'Dead'
+            return BehaviorTree.FAIL
+        return BehaviorTree.SUCCESS
 
     def do_idle(self):
         if self.action != 'Idle':
@@ -120,6 +139,9 @@ class Monster:
             self.remove()
 
         return BehaviorTree.SUCCESS
+
+    def decrease_life(self, amount):
+        self.life -= amount
 
     @staticmethod
     def load_all_images():
@@ -186,12 +208,18 @@ class Monster:
         image = images[self.fidx % len(images)]
         flip = 'h' if self.delta[0] > 0 else ''
         image.composite_draw(0, flip, *self.pos, image.w, image.h)
+
+        gy = self.pos[1] + image.h//2
+        rate = self.life / self.max_life
+        life_gauge.draw(self.pos[0], gy, 30, rate)
         # x,y = self.pos
         # Monster.font.draw(x-40, y+50, self.action + str(round(self.time * 100) / 100))
 
     def get_bb(self):
-        x,y = self.pos
-        return x - 20, y - 20, x + 20, y + 20
+        x, y = self.pos
+        images = self.images[self.action]
+        image = images[self.fidx % len(images)]
+        return x - image.w//2, y - image.h//2, x + image.w//2, y + image.h//2
 
     def __getstate__(self):
         dict = self.__dict__.copy()

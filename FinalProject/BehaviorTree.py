@@ -1,16 +1,16 @@
 
-# level = 0
-# def indent():
-#     global level
-#     level += 1
+level = 0
+def indent():
+    global level
+    level += 1
 
-# def unindent():
-#     global level
-#     level -= 1
+def unindent():
+    global level
+    level -= 1
 
-# def print_indent():
-#     for i in range(level):
-#         print("    ", end='')
+def print_indent():
+    for i in range(level):
+        print("    ", end='')
 
 
 class BehaviorTree:
