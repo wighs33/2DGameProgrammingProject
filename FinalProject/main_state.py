@@ -10,6 +10,7 @@ import gameclear
 
 canvas_width = 1000
 canvas_height = 900
+isclear = True
 
 SAVE_FILENAME = 'monsters.pickle'
 
@@ -28,6 +29,7 @@ def enter():
         unit = Unit2()
         selectedUnit = unit
         gfw.world.add(gfw.layer.unit2, unit)
+        gfw.world.add(gfw.layer.unit2, Unit2())
         gfw.world.add(gfw.layer.unit2, Unit2())
         gfw.world.add(gfw.layer.unit2, Unit2())
 
@@ -77,21 +79,21 @@ def update():
     if monster_time <= 0:
         if monster_level_up_time <= 0:
             monster_level += 1
-            if monster_level == 2:
+            if monster_level == 10:
                 isclear = True
                 end_game()
             monster_level_up_time = 50
-        gfw.world.add(gfw.layer.monster, Monster(monster_level))
+        if isclear: gfw.world.add(gfw.layer.monster, Monster(monster_level))
         monster_time = 5
 
-    if gfw.world.count_at(gfw.layer.monster) >= 50:
+    if gfw.world.count_at(gfw.layer.monster) >= 3:
         isclear = False
         end_game()
     global unit_time
     global unit2
     unit_time -= gfw.delta_time
     if unit_time <= 0:
-        gfw.world.add(gfw.layer.unit2, Unit2())
+        if isclear: gfw.world.add(gfw.layer.unit2, Unit2())
         unit_time = 50
 
     for mon in gfw.world.objects_at(gfw.layer.monster):
@@ -125,7 +127,9 @@ def handle_event(e):
 
 def end_game():
     global isclear
-    if isclear: gameclear.add()
+    if isclear: 
+        gameclear.add()
+        gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
     gfw.world.add(gfw.layer.gameclear, gameclear)
 
 def exit():

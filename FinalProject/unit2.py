@@ -9,7 +9,7 @@ class Unit2:
     CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
     images = {}
-    FPS = 12
+    FPS = 10
     # FCOUNT = 10
     def __init__(self):
         if len(Unit2.images) == 0:
@@ -18,7 +18,8 @@ class Unit2:
         self.pos = get_canvas_width()//2,get_canvas_height()//2
         self.delta = 0, 0
         # self.find_nearest_pos()
-        self.char = random.choice(['Ace', 'Akainu'])
+        self.char = random.choice(['Ace', 'Akainu', 'Aokiji', 'Bartholomew Kuma','Blackbeard', 'Boa Hancock', 'Buggy', 'Chopper', 'Crocodile', 'Dracule Mihawk', 
+            'Emporio Ivankov', 'Jinbei', 'Kizaru', 'MonkeyDLuffy'])
         self.images = Unit2.load_images(self.char)
         self.action = 'Idle'
         self.speed = 200
@@ -30,7 +31,17 @@ class Unit2:
         self.patrol_order = -1
         self.build_behavior_tree()
 
-        self.power = 20
+        self.power_by_char()
+
+    def power_by_char(self):
+        self.power = \
+            17 if self.char == 'Ace' else \
+            20 if self.char == 'Akainu' else \
+            19 if self.char == 'Aokiji' else \
+            18 if self.char == 'Bartholomew Kuma' else \
+            21 if self.char == 'Blackbeard' else \
+            16 if self.char == 'Boa Hancock' else \
+            15 if self.char == 'Buggy' else 10
 
     def set_target(self, target):
         x,y = self.pos
@@ -193,7 +204,7 @@ class Unit2:
 
         if e.type == SDL_MOUSEBUTTONDOWN:
             self.set_target((e.x, get_canvas_height() - e.y - 1))
-            print("(",e.x,",", get_canvas_height() - e.y - 1,")")
+            # print("(",e.x,",", get_canvas_height() - e.y - 1,")")
 
     def remove(self):
         gfw.world.remove(self)
