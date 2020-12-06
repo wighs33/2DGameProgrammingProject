@@ -44,6 +44,7 @@ def update():
     global index, display
     image_count = len(IMAGE_FILES)
     font_count = len(FONT_PAIRS)
+
     if index < image_count:
         file = IMAGE_FILES[index]
         gfw.image.load(file)

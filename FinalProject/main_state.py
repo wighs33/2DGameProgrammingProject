@@ -2,7 +2,7 @@ import os.path
 import gfw
 from pico2d import *
 from unit import Unit
-from unit2 import Unit2
+from unit import Unit
 from monster import Monster
 import gobj
 import life_gauge
@@ -17,26 +17,29 @@ max_monster_number = 30
 SAVE_FILENAME = 'monsters.pickle'
 
 def enter():
-    gfw.world.init(['bg', 'monster', 'unit', 'unit2', "gameclear"])
+    gfw.world.init(['bg', 'monster', 'unit', 'unit', "gameclear"])
     Monster.load_all_images()
-    Unit2.load_all_images()
+    Unit.load_all_images()
     life_gauge.load()
     gameclear.load()
 
     global selectedUnit
 
     if load():
-        unit = gfw.world.object(gfw.layer.unit2, 0)
+        unit = gfw.world.object(gfw.layer.unit, 0)
     else:
-        unit = Unit2()
+        unit = Unit(1)
         selectedUnit = unit
-        gfw.world.add(gfw.layer.unit2, unit)
-        gfw.world.add(gfw.layer.unit2, Unit2())
-        gfw.world.add(gfw.layer.unit2, Unit2())
-        gfw.world.add(gfw.layer.unit2, Unit2())
+        gfw.world.add(gfw.layer.unit, unit)
+        gfw.world.add(gfw.layer.unit, Unit(1))
+        gfw.world.add(gfw.layer.unit, Unit(1))
+        gfw.world.add(gfw.layer.unit, Unit(1))
 
         bg = gobj.ImageObject('background.jpg', (canvas_width // 2, canvas_height // 2))
         gfw.world.add(gfw.layer.bg, bg)
+
+    global magic_circle
+    magic_circle = gfw.image.load(gobj.RES_DIR + '/magic.png')
 
     global font, font2
     font = gfw.font.load(gobj.RES_DIR + '/Sweet_story.otf', 50)
@@ -61,7 +64,7 @@ def load():
     return True
 
 def check_monster(mon):
-    for u2 in gfw.gfw.world.objects_at(gfw.layer.unit2):
+    for u2 in gfw.gfw.world.objects_at(gfw.layer.unit):
         if gobj.attack_box(u2, mon):
             if u2.action == 'Attack':
                 # print('Collision', e, b)
@@ -95,19 +98,30 @@ def update():
         is_lose=True
         end_game()
     global unit_time
-    global unit2
+    global unit
     unit_time -= gfw.delta_time
     if unit_time <= 0:
-        if not is_lose: gfw.world.add(gfw.layer.unit2, Unit2())
+        if not is_lose: gfw.world.add(gfw.layer.unit, Unit())
         unit_time = 50
 
     for mon in gfw.world.objects_at(gfw.layer.monster):
         check_monster(mon)
+    ok=False
+    for unit1 in gfw.world.objects_at(gfw.layer.unit):
+        for unit2 in gfw.world.objects_at(gfw.layer.unit):
+            if gobj.can_combination(unit1, unit2) and unit1 != unit2:
+                unit1.remove()
+                unit2.remove()
+                ok = True
+
+    if ok: gfw.world.add(gfw.layer.unit, Unit(2))
 
 def draw():
     gfw.world.draw()
     gobj.draw_collision_box()
     gobj.draw_attack_box()
+    magic_circle.draw(gobj.magic_circle_pos[0], gobj.magic_circle_pos[1])
+    draw_rectangle(*gobj.magic_circle_bb())
     font.draw(300, canvas_height - 60, 'Stage %d' % monster_level,(255,50,255))
     font2.draw(550, canvas_height - 60, 'Number of Monsters: %d/%d' % (gfw.world.count_at(gfw.layer.monster), max_monster_number))
     if isclear and end_game(): gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)

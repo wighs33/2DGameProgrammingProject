@@ -49,7 +49,6 @@ def handle_event(e):
             gfw.push(main_state)
 
     if e.type == SDL_MOUSEBUTTONDOWN:
-        print("(",e.x,",", get_canvas_height() - e.y - 1,")")
         if 850-start_button.w//2 < e.x and \
             850+start_button.w//2 > e.x and \
             500-start_button.h//2 < get_canvas_height() - e.y - 1 and \

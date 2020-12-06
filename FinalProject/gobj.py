@@ -3,6 +3,7 @@ from pico2d import *
 import gfw
 
 RES_DIR = 'res'
+magic_circle_pos=193, 116
 
 def res(file):
     return RES_DIR + '/' + file
@@ -40,6 +41,29 @@ def attack_box(attacker, mon):
 
     return True
 
+def magic_circle_bb():
+    return magic_circle_pos[0]-50,magic_circle_pos[1]-50, magic_circle_pos[0]+50,magic_circle_pos[1]+50
+
+def can_combination(unit1, unit):
+    (la, ba, ra, ta) = magic_circle_bb()
+    if hasattr(unit1, 'handle_event') and hasattr(unit, 'handle_event'):
+        (lb, bb, rb, tb) = unit1.get_bb()
+        (lc, bc, rc, tc) = unit.get_bb()
+    else:
+        return False
+
+    if la > rb: return False
+    if ra < lb: return False
+    if ba > tb: return False
+    if ta < bb: return False
+
+    if la > rc: return False
+    if ra < lc: return False
+    if ba > tc: return False
+    if ta < bc: return False
+
+    return True
+
 def select_unit(e):
     if e.type == SDL_MOUSEBUTTONDOWN:
         for obj in gfw.world.all_objects():
@@ -64,7 +88,7 @@ def draw_collision_box():
             draw_rectangle(*obj.get_bb())
 
 def draw_attack_box():
-    for obj in gfw.world.objects_at(gfw.layer.unit2):
+    for obj in gfw.world.objects_at(gfw.layer.unit):
         draw_rectangle(*obj.get_attack_range())
 
 class ImageObject:

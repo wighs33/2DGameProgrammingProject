@@ -2,43 +2,57 @@ import random
 from pico2d import *
 import gfw
 import gobj
-
+from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 class Unit:
-    KEY_MAP = {
-        (SDL_KEYDOWN, SDLK_LEFT):  (-1,  0),
-        (SDL_KEYDOWN, SDLK_RIGHT): ( 1,  0),
-        (SDL_KEYDOWN, SDLK_DOWN):  ( 0, -1),
-        (SDL_KEYDOWN, SDLK_UP):    ( 0,  1),
-        (SDL_KEYUP, SDLK_LEFT):    ( 1,  0),
-        (SDL_KEYUP, SDLK_RIGHT):   (-1,  0),
-        (SDL_KEYUP, SDLK_DOWN):    ( 0,  1),
-        (SDL_KEYUP, SDLK_UP):      ( 0, -1),
-    }
-    KEYDOWN_SPACE  = (SDL_KEYDOWN, SDLK_SPACE)
-    KEYDOWN_LSHIFT = (SDL_KEYDOWN, SDLK_LSHIFT)
-    KEYUP_LSHIFT   = (SDL_KEYUP,   SDLK_LSHIFT)
-    image = None
-
     ACTIONS = ['Attack', 'Idle', 'Walk']
+    CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
     images = {}
-    FPS = 12
+    FPS = 10
+    # FCOUNT = 10
+    def __init__(self, level=1):
+        if len(Unit.images) == 0:
+            Unit.load_all_images()
 
-    #constructor
-    def __init__(self, ImageName, pos, xList):
-        self.pos = pos
+        self.pos = get_canvas_width()//2,get_canvas_height()//2
         self.delta = 0, 0
-        self.target = None
+        # self.find_nearest_pos()
+        if level == 1:
+            self.char = random.choice(['Ace', 'Akainu', 'Aokiji', 'Bartholomew Kuma', 'Blackbeard', 'Boa Hancock', 'Buggy', 'Chopper', 'Crocodile', 'Dracule Mihawk', 
+                'Emporio Ivankov', 'Jinbei', 'Kizaru', 'MonkeyDLuffy'])
+        else:
+            self.char = random.choice(['Luffy2'])
+        self.images = Unit.load_images(self.char)
+        self.action = 'Idle'
         self.speed = 200
-        self.image = ImageName
-        # self.image = gfw.image.load(gobj.RES_DIR + '/Ace_run.png')
-        self.time = 0
         self.fidx = 0
-        self.action = 0
-        self.imageXList = xList
-        # self.build_behavior_tree()
+        self.time = 0
+        self.target = None
+        if gfw.world.count_at(gfw.layer.unit) > 0:
+            self.unit = gfw.world.object(gfw.layer.unit, 0)
+        self.patrol_order = -1
+        self.build_behavior_tree()
 
+        self.power_by_char()
+
+    def power_by_char(self):
+        self.power = \
+            17 if self.char == 'Ace' else \
+            20 if self.char == 'Akainu' else \
+            20 if self.char == 'Aokiji' else \
+            18 if self.char == 'Bartholomew Kuma' else \
+            21 if self.char == 'Blackbeard' else \
+            15 if self.char == 'Boa Hancock' else \
+            14 if self.char == 'Buggy' else \
+            13 if self.char == 'Chopper' else \
+            16 if self.char == 'Crocodile' else \
+            20 if self.char == 'Dracule Mihawk' else \
+            17 if self.char == 'Emporio Ivankov' else \
+            18 if self.char == 'Jinbei' else \
+            19 if self.char == 'Kizaru' else \
+            16 if self.char == 'MonkeyDLuffy' else \
+            50 if self.char == 'Luffy2' else 10
     def set_target(self, target):
         x,y = self.pos
         tx,ty = target
@@ -48,20 +62,122 @@ class Unit:
 
         self.target = target
         self.delta = dx / distance, dy / distance
-        self.action = 0 if dx < 0 else 1
+        # print(x,y, tx,ty, dx,dy, '/',distance, dx/distance, dy/distance, 'target=', self.target, ' delta=', self.delta)
 
-    def draw(self):
-        width, height = self.imageXList[self.fidx+1] - self.imageXList[self.fidx], 100
-        sx = self.imageXList[self.fidx]
-        sy = 0
-        self.image.clip_draw(sx, sy, width, 100, *self.pos)
+    # def find_unit(self):
+    #     dist_sq = gobj.distance_sq(self.unit.pos, self.pos)
+    #     if dist_sq < Unit.CHASE_DISTANCE_SQ:
+    #         if self.patrol_order >= 0:
+    #             self.patrol_order = -1
+    #             self.action = 'Attack'
+    #         return BehaviorTree.SUCCESS
+    #     else:
+    #         if self.action == 'Attack':
+    #             self.action = 'Idle'
+    #             self.time = 0
+    #         else:
+    #             self.action = 'Walk'
+    #         return BehaviorTree.FAIL
+
+    # def move_to_unit(self):
+    #     self.set_target(self.unit.pos)
+    #     self.update_position()
+
+    #     collides = gobj.collides_box(self, self.unit)
+    #     if collides:
+    #         self.action = 'Dead'
+    #         self.time = 0
+    #     return BehaviorTree.SUCCESS
+
+    # def follow_patrol_positions(self):
+    #     if self.patrol_order < 0:
+    #         self.find_nearest_pos()
+    #     done = self.update_position()
+    #     if done:
+    #         self.set_patrol_target()
+
+    def do_idle(self):
+        if self.action != 'Idle':
+            return BehaviorTree.FAIL
+        self.time += gfw.delta_time
+        self.fidx = round(self.time * Unit.FPS)
+        if self.delta[0] != 0 or self.delta[1] != 0:
+            self.action = 'Walk'
+            return BehaviorTree.FAIL
+        for mon in gfw.world.objects_at(gfw.layer.monster):
+            if gobj.attack_box(self, mon):
+                self.action = 'Attack'
+                self.time = 0
+                return BehaviorTree.FAIL
+        return BehaviorTree.SUCCESS
+
+    def do_walk(self):
+        if self.action != 'Walk':
+            return BehaviorTree.FAIL
+        self.time += gfw.delta_time
+        self.fidx = round(self.time * Unit.FPS)
+        if self.delta[0] == 0 and self.delta[1] == 0:
+            self.action = 'Idle'
+            return BehaviorTree.FAIL
+        return BehaviorTree.SUCCESS
+
+    def do_attack(self):
+        if self.action != 'Attack':
+            return BehaviorTree.FAIL
+        self.time += gfw.delta_time
+        self.fidx = round(self.time * Unit.FPS)
+        if self.fidx >= len(self.images['Attack']):
+            self.action = 'Idle'
+            return BehaviorTree.FAIL
+        return BehaviorTree.SUCCESS
+
+
+    @staticmethod
+    def load_all_images():
+        Unit.load_images('Ace')
+        Unit.load_images('Akainu')
+        # Unit.font = gfw.font.load(gobj.RES_DIR + '/ENCR10B.TTF', 20)
+
+    @staticmethod
+    def load_images(char):
+        if char in Unit.images:
+            return Unit.images[char]
+
+        images = {}
+        count = 0
+        file_fmt = '%s/unitfiles/%s/%s (%d).png'
+        for action in Unit.ACTIONS:
+            action_images = []
+            n = 0
+            while True:
+                n += 1
+                fn = file_fmt % (gobj.RES_DIR, char, action, n)
+                if os.path.isfile(fn):
+                    action_images.append(gfw.image.load(fn))
+                else:
+                    break
+                count += 1
+            images[action] = action_images
+        Unit.images[char] = images
+        #print('%d images loaded for %s' % (count, char))
+        return images
 
     def update(self):
-        x, y = self.pos
-        dx, dy = self.delta
+        self.bt.run()
+        self.update_position()
+
+    def update_position(self):
+        self.time += gfw.delta_time
+        self.fidx = round(self.time * Unit.FPS)
+
+        x,y = self.pos
+        dx,dy = self.delta
         x += dx * self.speed * gfw.delta_time
         y += dy * self.speed * gfw.delta_time
 
+        # print(self.pos, self.delta, self.target, x, y, dx, dy)
+
+        done = False
         done = False
         if self.target is not None:
             tx, ty = self.target
@@ -71,17 +187,15 @@ class Unit:
             if dy > 0 and y >= ty or y < 0 and y <= ty:
                 y = ty
                 done = True
+            self.pos = x,y
 
         if done:
             self.target = None
             self.delta = 0, 0
-            self.action = 2 if dx < 0 else 3
-        self.pos = x, y
 
-        self.time += gfw.delta_time
-        frame = self.time * 15
-        self.fidx = int(frame) % 7
-        #print(self.fidx)
+        
+
+        return done
 
     def handle_event(self, e):
         pair = (e.type, e.key)
@@ -100,26 +214,38 @@ class Unit:
 
         if e.type == SDL_MOUSEBUTTONDOWN:
             self.set_target((e.x, get_canvas_height() - e.y - 1))
-            # print(e.x, get_canvas_height() - e.y - 1)
-        # elif e.type == SDL_MOUSEMOTION:
-        #     if self.target is not None:
-        #         self.set_target((e.x, get_canvas_height() - e.y - 1))
+            # print("(",e.x,",", get_canvas_height() - e.y - 1,")")
+
+    def remove(self):
+        gfw.world.remove(self)
+
+    def draw(self):
+        images = self.images[self.action]
+        image = images[self.fidx % len(images)]
+        flip = 'h' if self.delta[0] < 0 else ''
+        image.composite_draw(0, flip, *self.pos, image.w, image.h)
+        # x,y = self.pos
+        # Unit.font.draw(x-40, y+50, self.action + str(round(self.time * 100) / 100))
 
     def get_bb(self):
-        hw = 20
-        hh = 40
         x,y = self.pos
-        return x - hw, y - hh, x + hw, y + hh
+        return x - 30, y - 40, x + 30, y + 40
+
+    def get_attack_range(self):
+        x,y = self.pos
+        return x - 80, y - 80, x + 80, y + 80
+
 
     def __getstate__(self):
         dict = self.__dict__.copy()
-        del dict['image']
+        del dict['images']
+        # del dict['unit']
         return dict
 
     def __setstate__(self, dict):
         # self.__init__()
         self.__dict__.update(dict)
-        self.image = gfw.image.load(gobj.RES_DIR + '/animation_sheet.png')
+        self.images = Unit.load_images(self.char)
 
     def build_behavior_tree(self):
         # node_gnp = LeafNode("Get Next Position", self.set_patrol_target)
@@ -139,30 +265,13 @@ class Unit:
                 },
                 {
                     "class": LeafNode,
-                    "name": "Dead",
-                    "function": self.do_dead,
+                    "name": "Walk",
+                    "function": self.do_walk,
                 },
-                #{
-                #    "name": "Chase",
-                #    "class": SequenceNode,
-                #    "children": [
-                        #{
-                        #    "class": LeafNode,
-                        #    "name": "Find Unit",
-                        #    "function": self.find_unit,
-                        #},
-                        #{
-                        #    "class": LeafNode,
-                        #    "name": "Move to Unit",
-                        #    "function": self.move_to_unit,
-                        #},
-                #    ],
-                #},
                 {
                     "class": LeafNode,
-                    "name": "Follow Patrol positions",
-                    "function": self.follow_patrol_positions,
+                    "name": "Attack",
+                    "function": self.do_attack,
                 },
             ],
         })
-
