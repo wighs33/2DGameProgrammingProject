@@ -12,6 +12,7 @@ canvas_width = 1000
 canvas_height = 900
 isclear = False
 is_lose=False
+max_monster_number = 30
 
 SAVE_FILENAME = 'monsters.pickle'
 
@@ -38,7 +39,7 @@ def enter():
         gfw.world.add(gfw.layer.bg, bg)
 
     global font, font2
-    font = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 40)
+    font = gfw.font.load(gobj.RES_DIR + '/Sweet_story.otf', 50)
     font2 = gfw.font.load(gobj.RES_DIR + '/ConsolaMalgun.ttf', 20)
 
     global monster_time
@@ -89,7 +90,7 @@ def update():
         if not is_lose: gfw.world.add(gfw.layer.monster, Monster(monster_level))
         monster_time = 5
 
-    if gfw.world.count_at(gfw.layer.monster) >= 30:
+    if gfw.world.count_at(gfw.layer.monster) >= max_monster_number:
         isclear = False
         is_lose=True
         end_game()
@@ -107,8 +108,8 @@ def draw():
     gfw.world.draw()
     gobj.draw_collision_box()
     gobj.draw_attack_box()
-    font.draw(300, canvas_height - 60, 'Stage %d' % monster_level)
-    font2.draw(550, canvas_height - 60, 'Number of Monsters: %d' % gfw.world.count_at(gfw.layer.monster))
+    font.draw(300, canvas_height - 60, 'Stage %d' % monster_level,(255,50,255))
+    font2.draw(550, canvas_height - 60, 'Number of Monsters: %d/%d' % (gfw.world.count_at(gfw.layer.monster), max_monster_number))
     if isclear and end_game(): gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
     
 def handle_event(e):

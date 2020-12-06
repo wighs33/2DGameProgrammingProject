@@ -1,6 +1,8 @@
+import random
 import gfw
 from pico2d import *
 import main_state
+import title_state
 from gobj import res
 
 canvas_width = main_state.canvas_width
@@ -10,8 +12,8 @@ center_x = canvas_width // 2
 center_y = canvas_height // 2
 
 def enter():
-    global back, bg, fg, index, file
-    back = gfw.image.load(res('loading.jpg'))
+    global back, bg, fg, index, file, w, h
+    back = gfw.image.load(res('loading.png'))
     bg = gfw.image.load(res('progress_bg.png'))
     fg = gfw.image.load(res('progress_fg.png'))
     index = 0
@@ -23,6 +25,8 @@ def enter():
     global frame_interval
     frame_interval = gfw.frame_interval
     gfw.frame_interval = 0
+    w = random.randint(0,3)
+    h = random.randint(0,11)
 
 def exit():
     global back, bg, fg
@@ -49,12 +53,12 @@ def update():
         gfw.font.load(file, size)
         display = '%s %dpt' % (file, size)
     else:
-        gfw.change(main_state)
+        gfw.change(title_state)
         return
     index += 1
 
 def draw():
-    back.draw(center_x, center_y)
+    back.clip_draw_to_origin(0+256*w, 20+192*h, 256, 192, 0, 0, 1000, 900)
     image_count = len(IMAGE_FILES)
     font_count = len(FONT_PAIRS)
     progress = index / (image_count + font_count)
@@ -85,8 +89,7 @@ def handle_event(e):
             gfw.pop()
 
 IMAGE_FILES = [
-    "res/kpu_1280x960.png",
-    "res/animation_sheet.png",
+    "res/background.jpg",
     "res/monsterfiles/Bulbasaur/Dead (1).png",
     "res/monsterfiles/Bulbasaur/Idle (1).png",
     "res/monsterfiles/Bulbasaur/Idle (2).png",

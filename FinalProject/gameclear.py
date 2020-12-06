@@ -22,7 +22,7 @@ def load():
         gameclears = pickle.load(f)
         f.close()
     except:
-        print("No highscore file")
+        print("No clear file")
 
 def save():
     f = open(FILENAME, "wb")
