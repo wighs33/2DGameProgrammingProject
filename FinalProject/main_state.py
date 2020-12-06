@@ -10,7 +10,8 @@ import gameclear
 
 canvas_width = 1000
 canvas_height = 900
-isclear = True
+isclear = False
+is_lose=False
 
 SAVE_FILENAME = 'monsters.pickle'
 
@@ -36,8 +37,9 @@ def enter():
         bg = gobj.ImageObject('background.jpg', (canvas_width // 2, canvas_height // 2))
         gfw.world.add(gfw.layer.bg, bg)
 
-    global font
+    global font, font2
     font = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 40)
+    font2 = gfw.font.load(gobj.RES_DIR + '/ConsolaMalgun.ttf', 20)
 
     global monster_time
     monster_time = 1
@@ -74,6 +76,7 @@ def update():
     global monster_level_up_time
     global monster_level
     global isclear
+    global is_lose
     monster_time -= gfw.delta_time
     monster_level_up_time -= gfw.delta_time
     if monster_time <= 0:
@@ -83,17 +86,18 @@ def update():
                 isclear = True
                 end_game()
             monster_level_up_time = 50
-        if isclear: gfw.world.add(gfw.layer.monster, Monster(monster_level))
+        if not is_lose: gfw.world.add(gfw.layer.monster, Monster(monster_level))
         monster_time = 5
 
-    if gfw.world.count_at(gfw.layer.monster) >= 3:
+    if gfw.world.count_at(gfw.layer.monster) >= 30:
         isclear = False
+        is_lose=True
         end_game()
     global unit_time
     global unit2
     unit_time -= gfw.delta_time
     if unit_time <= 0:
-        if isclear: gfw.world.add(gfw.layer.unit2, Unit2())
+        if not is_lose: gfw.world.add(gfw.layer.unit2, Unit2())
         unit_time = 50
 
     for mon in gfw.world.objects_at(gfw.layer.monster):
@@ -103,7 +107,9 @@ def draw():
     gfw.world.draw()
     gobj.draw_collision_box()
     gobj.draw_attack_box()
-    font.draw(canvas_width//2-100, canvas_height - 60, 'Stage %d' % monster_level)
+    font.draw(300, canvas_height - 60, 'Stage %d' % monster_level)
+    font2.draw(550, canvas_height - 60, 'Number of Monsters: %d' % gfw.world.count_at(gfw.layer.monster))
+    if isclear and end_game(): gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
     
 def handle_event(e):
     global selectedUnit
@@ -129,8 +135,8 @@ def end_game():
     global isclear
     if isclear: 
         gameclear.add()
-        gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
     gfw.world.add(gfw.layer.gameclear, gameclear)
+    return True
 
 def exit():
     pass

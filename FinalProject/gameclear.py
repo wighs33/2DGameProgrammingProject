@@ -33,7 +33,7 @@ def add():
     gameclears.append(Entry())
 
 def draw():
-    global font, image, button_image
+    global font, image
     image.draw_to_origin(get_canvas_width()//2-image.w//2, get_canvas_height()//2-image.h//2)
     y = 360
     for c in gameclears:

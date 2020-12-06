@@ -21,7 +21,7 @@ class Monster:
         self.delta = 0.1, 0.1
         # self.find_nearest_pos()
         self.level = level
-        self.max_life = random.randint(level * 6000,level * 7000)
+        self.max_life = level * level * random.randint(5000, 6000)
         self.life = self.max_life
         self.strong_monster_by_level()
         self.images = Monster.load_images(self.char)

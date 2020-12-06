@@ -18,7 +18,7 @@ class Unit2:
         self.pos = get_canvas_width()//2,get_canvas_height()//2
         self.delta = 0, 0
         # self.find_nearest_pos()
-        self.char = random.choice(['Ace', 'Akainu', 'Aokiji', 'Bartholomew Kuma','Blackbeard', 'Boa Hancock', 'Buggy', 'Chopper', 'Crocodile', 'Dracule Mihawk', 
+        self.char = random.choice(['Ace', 'Akainu', 'Aokiji', 'Bartholomew Kuma', 'Blackbeard', 'Boa Hancock', 'Buggy', 'Chopper', 'Crocodile', 'Dracule Mihawk', 
             'Emporio Ivankov', 'Jinbei', 'Kizaru', 'MonkeyDLuffy'])
         self.images = Unit2.load_images(self.char)
         self.action = 'Idle'
@@ -37,12 +37,18 @@ class Unit2:
         self.power = \
             17 if self.char == 'Ace' else \
             20 if self.char == 'Akainu' else \
-            19 if self.char == 'Aokiji' else \
+            20 if self.char == 'Aokiji' else \
             18 if self.char == 'Bartholomew Kuma' else \
             21 if self.char == 'Blackbeard' else \
-            16 if self.char == 'Boa Hancock' else \
-            15 if self.char == 'Buggy' else 10
-
+            15 if self.char == 'Boa Hancock' else \
+            14 if self.char == 'Buggy' else \
+            13 if self.char == 'Chopper' else \
+            16 if self.char == 'Crocodile' else \
+            20 if self.char == 'Dracule Mihawk' else \
+            17 if self.char == 'Emporio Ivankov' else \
+            18 if self.char == 'Jinbei' else \
+            19 if self.char == 'Kizaru' else \
+            16 if self.char == 'MonkeyDLuffy' else 10
     def set_target(self, target):
         x,y = self.pos
         tx,ty = target
