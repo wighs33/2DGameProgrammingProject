@@ -5,11 +5,12 @@ import gobj
 from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 class Unit:
-    ACTIONS = ['Attack', 'Idle', 'Walk']
+    ACTIONS = ['Attack', 'Idle', 'Walk', 'Ani']
     CHASE_DISTANCE_SQ = 250 ** 2
     IDLE_INTERVAL = 2.0
     images = {}
     FPS = 10
+    is_show_ani=True
     # FCOUNT = 10
     def __init__(self, level=1):
         if len(Unit.images) == 0:
@@ -22,12 +23,18 @@ class Unit:
             self.char = random.choice(['Ace', 'Akainu', 'Aokiji', 'Bartholomew Kuma', 'Blackbeard', 'Boa Hancock', 'Buggy', 'Chopper', 'Crocodile', 'Dracule Mihawk', 
                 'Emporio Ivankov', 'Jinbei', 'Kizaru', 'MonkeyDLuffy'])
         else:
-            self.char = random.choice(['Luffy2'])
+            self.char = random.choice(['Luffy_lv2', 'Shanks_lv2'])
+            self.sound_by_char()
+            self.sound.set_volume(10)
+            self.sound.play()
+
         self.images = Unit.load_images(self.char)
         self.action = 'Idle'
         self.speed = 200
         self.fidx = 0
         self.time = 0
+        self.fidx_ani = 0
+        self.time_ani = 0
         self.target = None
         if gfw.world.count_at(gfw.layer.unit) > 0:
             self.unit = gfw.world.object(gfw.layer.unit, 0)
@@ -52,7 +59,12 @@ class Unit:
             18 if self.char == 'Jinbei' else \
             19 if self.char == 'Kizaru' else \
             16 if self.char == 'MonkeyDLuffy' else \
-            50 if self.char == 'Luffy2' else 10
+            60 if self.char == 'Luffy_lv2' else \
+            62 if self.char == 'Shanks_lv2' else 10
+    def sound_by_char(self):
+        self.sound = \
+            load_wav('res/shanks.wav') if self.char == 'Shanks_lv2' else \
+            load_wav('res/luffy.wav') if self.char == 'Luffy_lv2' else None
     def set_target(self, target):
         x,y = self.pos
         tx,ty = target
@@ -95,6 +107,14 @@ class Unit:
     #     done = self.update_position()
     #     if done:
     #         self.set_patrol_target()
+    def show_ani(self):
+        self.time_ani += gfw.delta_time
+        self.fidx_ani = round(self.time_ani * self.FPS)
+        print(self.fidx_ani)
+        if self.fidx_ani >= len(self.images['Ani']):
+            self.is_show_ani = False
+        image = self.images['Ani'][self.fidx_ani % len(self.images['Ani'])]
+        image.draw_to_origin(0,0,1000,900)
 
     def do_idle(self):
         if self.action != 'Idle':
@@ -224,6 +244,7 @@ class Unit:
         image = images[self.fidx % len(images)]
         flip = 'h' if self.delta[0] < 0 else ''
         image.composite_draw(0, flip, *self.pos, image.w, image.h)
+        if self.is_show_ani and len(self.images['Ani']) != 0: Unit.show_ani(self)
         # x,y = self.pos
         # Unit.font.draw(x-40, y+50, self.action + str(round(self.time * 100) / 100))
 

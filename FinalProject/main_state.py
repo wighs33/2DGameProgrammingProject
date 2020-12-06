@@ -12,7 +12,8 @@ canvas_width = 1000
 canvas_height = 900
 isclear = False
 is_lose=False
-max_monster_number = 30
+max_monster_number = 3
+is_end_music_on=False
 
 SAVE_FILENAME = 'monsters.pickle'
 
@@ -38,8 +39,8 @@ def enter():
         bg = gobj.ImageObject('background.jpg', (canvas_width // 2, canvas_height // 2))
         gfw.world.add(gfw.layer.bg, bg)
 
-    global magic_circle
-    magic_circle = gfw.image.load(gobj.RES_DIR + '/magic.png')
+    magic_circle = gobj.ImageObject('magic.png', (gobj.magic_circle_pos[0], gobj.magic_circle_pos[1]))
+    gfw.world.add(gfw.layer.bg, magic_circle)
 
     global font, font2
     font = gfw.font.load(gobj.RES_DIR + '/Sweet_story.otf', 50)
@@ -53,6 +54,13 @@ def enter():
     monster_level_up_time = 50
     global unit_time
     unit_time = 50
+
+    global music_bg, end_music
+    music_bg = load_music('res/Track 5.mp3')
+    music_bg.set_volume(10)
+    end_music = load_music('res/Track 26.mp3')
+    end_music.set_volume(10)
+    music_bg.repeat_play()
 
 
 def load():
@@ -117,11 +125,10 @@ def update():
     if ok: gfw.world.add(gfw.layer.unit, Unit(2))
 
 def draw():
+    draw_rectangle(*gobj.magic_circle_bb())
     gfw.world.draw()
     gobj.draw_collision_box()
     gobj.draw_attack_box()
-    magic_circle.draw(gobj.magic_circle_pos[0], gobj.magic_circle_pos[1])
-    draw_rectangle(*gobj.magic_circle_bb())
     font.draw(300, canvas_height - 60, 'Stage %d' % monster_level,(255,50,255))
     font2.draw(550, canvas_height - 60, 'Number of Monsters: %d/%d' % (gfw.world.count_at(gfw.layer.monster), max_monster_number))
     if isclear and end_game(): gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
@@ -147,7 +154,11 @@ def handle_event(e):
     #     print('Saved to:', SAVE_FILENAME)
 
 def end_game():
-    global isclear
+    global isclear, end_music, music_bg, is_end_music_on
+    if not is_end_music_on:
+        music_bg.stop()
+        end_music.repeat_play()
+        is_end_music_on = True
     if isclear: 
         gameclear.add()
     gfw.world.add(gfw.layer.gameclear, gameclear)

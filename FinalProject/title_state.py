@@ -21,6 +21,11 @@ def enter():
     font = gfw.font.load(gobj.RES_DIR + '/BRAZIE.ttf', 100)
     font2 = gfw.font.load(gobj.RES_DIR + '/segoeprb.ttf', 22)
 
+    global music_bg
+    music_bg = load_music('res/Track 26.mp3')
+    music_bg.set_volume(10)
+    music_bg.repeat_play()
+
 def update():
     pass
 
@@ -31,11 +36,12 @@ def draw():
     manual_button.draw(850, 450)
     if memo_on: 
         memo.draw(center_x, center_y)
-        font2.draw(250, 830, 'How To Play', (10, 10, 100))
-        font2.draw(250, 800, 'Kill monsters by moving units with the mouse', (10, 10, 10))
-        font2.draw(250, 700, 'stage 9 -> WIN', (10, 10, 10))
-        font2.draw(250, 730, 'the number of monsters exceeds 30 -> LOSE', (10, 10, 10))
-        font2.draw(250, 500, 'Press any key', (10, 10, 10))
+        font2.draw(250, 830, '< How To Play >', (10, 10, 200))
+        font2.draw(250, 780, 'Kill monsters by moving units with the mouse', (10, 10, 10))
+        font2.draw(250, 730, 'stage 9 -> WIN', (10, 10, 10))
+        font2.draw(250, 700, 'the number of monsters exceeds 30 -> LOSE', (10, 10, 10))
+        font2.draw(250, 600, 'To combine, move two units to the magic circle', (10, 10, 10))
+        font2.draw(250, 400, 'Press any key', (10, 10, 10))
 
 def handle_event(e):
     global memo_on
