@@ -61,13 +61,13 @@
  ![ex_screenshot](./img/unitfiles/Aokiji/Idle.png)
   - Aokiji 
   
- ![ex_screenshot](./img/unitfiles/Bartholomew\ Kuma/Idle.png)
+ ![ex_screenshot](./img/unitfiles/BartholomewKuma/Idle.png)
   - Bartholomew Kuma
   
  ![ex_screenshot](./img/unitfiles/Blackbeard/Idle.png)
   - Blackbeard 
   
- ![ex_screenshot](./img/unitfiles/Boa Hancock/Idle.png)
+ ![ex_screenshot](./img/unitfiles/BoaHancock/Idle.png)
   - Boa Hancock 
   
  ![ex_screenshot](./img/unitfiles/Buggy/Idle.png)
@@ -79,10 +79,10 @@
  ![ex_screenshot](./img/unitfiles/Crocodile/Idle.png)
   - Crocodile 
   
- ![ex_screenshot](./img/unitfiles/Dracule Mihawk/Idle.png)
+ ![ex_screenshot](./img/unitfiles/DraculeMihawk/Idle.png)
   - Dracule Mihawk
   
- ![ex_screenshot](./img/unitfiles/Emporio Ivankov/Idle.png)
+ ![ex_screenshot](./img/unitfiles/EmporioIvankov/Idle.png)
   - Emporio Ivankov 
   
  ![ex_screenshot](./img/unitfiles/Jinbei/Idle.png)
