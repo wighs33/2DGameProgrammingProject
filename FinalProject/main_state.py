@@ -12,8 +12,10 @@ canvas_width = 1000
 canvas_height = 900
 isclear = False
 is_lose=False
-max_monster_number = 3
+show_continue = False
+max_monster_number = 30
 is_end_music_on=False
+Max_Stage = 9
 
 SAVE_FILENAME = 'monsters.pickle'
 
@@ -94,7 +96,7 @@ def update():
     if monster_time <= 0:
         if monster_level_up_time <= 0:
             monster_level += 1
-            if monster_level == 10:
+            if monster_level == Max_Stage + 1:
                 isclear = True
                 end_game()
             monster_level_up_time = 50
@@ -125,25 +127,33 @@ def update():
     if ok: gfw.world.add(gfw.layer.unit, Unit(2))
 
 def draw():
-    draw_rectangle(*gobj.magic_circle_bb())
+    global show_continue
     gfw.world.draw()
-    gobj.draw_collision_box()
-    gobj.draw_attack_box()
+    # draw_rectangle(*gobj.magic_circle_bb())
+    # gobj.draw_collision_box()
+    # gobj.draw_attack_box()
     font.draw(300, canvas_height - 60, 'Stage %d' % monster_level,(255,50,255))
     font2.draw(550, canvas_height - 60, 'Number of Monsters: %d/%d' % (gfw.world.count_at(gfw.layer.monster), max_monster_number))
-    if isclear and end_game(): gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
+    if isclear and show_continue: gameclear.button_image.draw_to_origin(get_canvas_width()//2 - gameclear.button_image.w//2, 80)
     
 def handle_event(e):
-    global selectedUnit
+    global selectedUnit, music_bg, end_music
     # prev_dx = boy.dx
     if e.type == SDL_QUIT:
         gfw.quit()
+        # music_bg.__del__()
+        # end_music.__del__()
     elif e.type == SDL_KEYDOWN:
         if e.key == SDLK_ESCAPE:
             gfw.pop()
+            # music_bg.__del__()
+            # end_music.__del__()
 
     if e.type == SDL_MOUSEBUTTONDOWN:
-        if gameclear.is_click_continue(e): gfw.world.clear_at(gfw.layer.gameclear)
+        global show_continue
+        if gameclear.is_click_continue(e):
+            gfw.world.clear_at(gfw.layer.gameclear)
+            show_continue = False
         selectTmp=gobj.select_unit(e)
         if hasattr(selectTmp, 'handle_event'):
             selectedUnit = selectTmp
@@ -154,14 +164,15 @@ def handle_event(e):
     #     print('Saved to:', SAVE_FILENAME)
 
 def end_game():
-    global isclear, end_music, music_bg, is_end_music_on
+    global isclear, end_music, music_bg, is_end_music_on, show_continue
     if not is_end_music_on:
         music_bg.stop()
         end_music.repeat_play()
         is_end_music_on = True
-    if isclear: 
-        gameclear.add()
-    gfw.world.add(gfw.layer.gameclear, gameclear)
+        if isclear: 
+            gameclear.add()
+        gfw.world.add(gfw.layer.gameclear, gameclear)
+        show_continue=True
     return True
 
 def exit():

@@ -59,8 +59,8 @@ class Unit:
             18 if self.char == 'Jinbei' else \
             19 if self.char == 'Kizaru' else \
             16 if self.char == 'MonkeyDLuffy' else \
-            60 if self.char == 'Luffy_lv2' else \
-            62 if self.char == 'Shanks_lv2' else 10
+            80 if self.char == 'Luffy_lv2' else \
+            85 if self.char == 'Shanks_lv2' else 10
     def sound_by_char(self):
         self.sound = \
             load_wav('res/shanks.wav') if self.char == 'Shanks_lv2' else \
@@ -110,7 +110,6 @@ class Unit:
     def show_ani(self):
         self.time_ani += gfw.delta_time
         self.fidx_ani = round(self.time_ani * self.FPS)
-        print(self.fidx_ani)
         if self.fidx_ani >= len(self.images['Ani']):
             self.is_show_ani = False
         image = self.images['Ani'][self.fidx_ani % len(self.images['Ani'])]

@@ -70,6 +70,7 @@ def handle_event(e):
 def exit():
     global image
     del image
+    music_bg.__del__()
 
 def pause():
     pass
