@@ -52,7 +52,39 @@
   - 게임에서 승리할 시에 컨티뉴 버튼이 나오는데 컨티뉴 버튼이 나오면 스테이지가 계속해서 증가 하고 몬스터의 체력도 증가하지만 몬스터의 이미지는 바뀌지 않습니다.
 
 ### b. 유닛
-
-  - 
+ ![ex_screenshot](./img/unitfiles/Ace/Idle.png)
+  - Ace 
+ ![ex_screenshot](./img/unitfiles/Akainu/Idle (1).png)
+  - Akainu
+ ![ex_screenshot](./img/unitfiles/Aokiji/Idle (1).png)
+  - Aokiji 
+ ![ex_screenshot](./img/unitfiles/Bartholomew Kuma/Idle (1).png)
+  - Bartholomew Kuma
+ ![ex_screenshot](./img/unitfiles/Blackbeard/Idle (1).png)
+  - Blackbeard 
+ ![ex_screenshot](./img/unitfiles/Boa Hancock/Idle (1).png)
+  - Boa Hancock 
+ ![ex_screenshot](./img/unitfiles/Buggy/Idle (1).png)
+  - Buggy
+ ![ex_screenshot](./img/unitfiles/Chopper/Idle (1).png)
+  - Chopper
+ ![ex_screenshot](./img/unitfiles/Crocodile/Idle (1).png)
+  - Crocodile 
+ ![ex_screenshot](./img/unitfiles/Dracule Mihawk/Idle (1).png)
+  - Dracule Mihawk
+ ![ex_screenshot](./img/unitfiles/Emporio Ivankov/Idle (1).png)
+  - Emporio Ivankov 
+ ![ex_screenshot](./img/unitfiles/Jinbei/Idle (1).png)
+  - Jinbei
+ ![ex_screenshot](./img/unitfiles/Kizaru/Idle (1).png)
+  - Kizaru
+ ![ex_screenshot](./img/unitfiles/MonkeyDLuffy/Idle (1).png)
+  - MonkeyDLuffy
+  
+#### 
+ ![ex_screenshot](./img/unitfiles/Luffy_lv2/Idle (1).png)
+  - Luffy_lv2
+ ![ex_screenshot](./img/unitfiles/Shanks_lv2/Idle (1).png)
+  - Shanks_lv2
 
 ### c. 몬스터
