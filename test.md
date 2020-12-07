@@ -103,5 +103,5 @@
   
 
 ### c. 몬스터
-   ![ex_screenshot](./img/unitfiles/Squirtle/Idle.png)
+   ![ex_screenshot](./img/monsterfiles/Squirtle/Idle.png)
    - stage 1 - Squirtle
