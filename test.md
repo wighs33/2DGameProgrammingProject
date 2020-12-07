@@ -25,12 +25,16 @@
 ### a. 게임 화면
 
 #### 로딩 화면
+![ex_screenshot](./img/loading.png)
 
 #### 타이틀 화면
+![ex_screenshot](./img/title.png)
 
 #### 플레이 화면
+![ex_screenshot](./img/gameplay.png)
 
 #### 게임오버 화면
+![ex_screenshot](./img/gameover.png)
 
 ### b. 유닛
 
