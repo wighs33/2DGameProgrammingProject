@@ -54,37 +54,51 @@
 ### b. 유닛
  ![ex_screenshot](./img/unitfiles/Ace/Idle.png)
   - Ace 
+  
  ![ex_screenshot](./img/unitfiles/Akainu/Idle.png)
   - Akainu
+  
  ![ex_screenshot](./img/unitfiles/Aokiji/Idle.png)
   - Aokiji 
+  
  ![ex_screenshot](./img/unitfiles/Bartholomew Kuma/Idle.png)
   - Bartholomew Kuma
+  
  ![ex_screenshot](./img/unitfiles/Blackbeard/Idle.png)
   - Blackbeard 
+  
  ![ex_screenshot](./img/unitfiles/Boa Hancock/Idle.png)
   - Boa Hancock 
- ![ex_screenshot](./img/unitfiles/Buggy/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Buggy/Idle.png)
   - Buggy
- ![ex_screenshot](./img/unitfiles/Chopper/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Chopper/Idle.png)
   - Chopper
- ![ex_screenshot](./img/unitfiles/Crocodile/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Crocodile/Idle.png)
   - Crocodile 
- ![ex_screenshot](./img/unitfiles/Dracule Mihawk/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Dracule Mihawk/Idle.png)
   - Dracule Mihawk
- ![ex_screenshot](./img/unitfiles/Emporio Ivankov/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Emporio Ivankov/Idle.png)
   - Emporio Ivankov 
- ![ex_screenshot](./img/unitfiles/Jinbei/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Jinbei/Idle.png)
   - Jinbei
- ![ex_screenshot](./img/unitfiles/Kizaru/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Kizaru/Idle.png)
   - Kizaru
- ![ex_screenshot](./img/unitfiles/MonkeyDLuffy/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/MonkeyDLuffy/Idle.png)
   - MonkeyDLuffy
   
-#### 
- ![ex_screenshot](./img/unitfiles/Luffy_lv2/Idle (1).png)
+#### 상위 유닛
+ ![ex_screenshot](./img/unitfiles/Luffy_lv2/Idle.png)
   - Luffy_lv2
- ![ex_screenshot](./img/unitfiles/Shanks_lv2/Idle (1).png)
+  
+ ![ex_screenshot](./img/unitfiles/Shanks_lv2/Idle.png)
   - Shanks_lv2
+  
 
 ### c. 몬스터
