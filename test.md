@@ -61,7 +61,7 @@
  ![ex_screenshot](./img/unitfiles/Aokiji/Idle.png)
   - Aokiji 
   
- ![ex_screenshot]("./img/unitfiles/Bartholomew Kuma/Idle.png")
+ ![ex_screenshot](./img/unitfiles/"Bartholomew Kuma"/Idle.png)
   - Bartholomew Kuma
   
  ![ex_screenshot](./img/unitfiles/Blackbeard/Idle.png)
