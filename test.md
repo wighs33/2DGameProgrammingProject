@@ -90,6 +90,7 @@
   
  ![ex_screenshot](./img/unitfiles/Kizaru/Idle.png)
   - Kizaru
+  
  ![ex_screenshot](./img/unitfiles/MonkeyDLuffy/Idle.png)
   - MonkeyDLuffy
   
@@ -102,3 +103,5 @@
   
 
 ### c. 몬스터
+   ![ex_screenshot](./img/unitfiles/Squirtle/Idle.png)
+   - stage 1 - Squirtle
