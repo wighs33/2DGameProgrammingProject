@@ -52,7 +52,7 @@
   - 게임에서 승리할 시에 컨티뉴 버튼이 나오는데 컨티뉴 버튼이 나오면 스테이지가 계속해서 증가 하고 몬스터의 체력도 증가하지만 몬스터의 이미지는 바뀌지 않습니다.
 
 ### b. 유닛
- ![ex_screenshot](./img/unitfiles/Ace/ssIdle(1).png)
+ ![ex_screenshot](./img/unitfiles/Ace/Idle (1).png)
   - Ace 
  ![ex_screenshot](./img/unitfiles/Akainu/Idle (1).png)
   - Akainu
