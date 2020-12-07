@@ -103,7 +103,8 @@
   
 
 ### c. 몬스터
-   ![ex_screenshot](./img/monsterfiles/Bulbasaur/Idle.png)
+
+      ![ex_screenshot](./img/monsterfiles/Bulbasaur/Idle.png)
    - stage 1 - Bulbasaur
    
       ![ex_screenshot](./img/monsterfiles/Charmander/Idle.png)
