@@ -54,15 +54,15 @@
 ### b. 유닛
  ![ex_screenshot](./img/unitfiles/Ace/Idle.png)
   - Ace 
- ![ex_screenshot](./img/unitfiles/Akainu/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/Akainu/Idle.png)
   - Akainu
- ![ex_screenshot](./img/unitfiles/Aokiji/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/Aokiji/Idle.png)
   - Aokiji 
- ![ex_screenshot](./img/unitfiles/Bartholomew Kuma/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/Bartholomew Kuma/Idle.png)
   - Bartholomew Kuma
- ![ex_screenshot](./img/unitfiles/Blackbeard/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/Blackbeard/Idle.png)
   - Blackbeard 
- ![ex_screenshot](./img/unitfiles/Boa Hancock/Idle (1).png)
+ ![ex_screenshot](./img/unitfiles/Boa Hancock/Idle.png)
   - Boa Hancock 
  ![ex_screenshot](./img/unitfiles/Buggy/Idle (1).png)
   - Buggy
