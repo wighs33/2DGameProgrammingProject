@@ -103,5 +103,21 @@
   
 
 ### c. 몬스터
-   ![ex_screenshot](./img/monsterfiles/Squirtle/Idle.png)
-   - stage 1 - Squirtle
+   ![ex_screenshot](./img/monsterfiles/Bulbasaur/Idle.png)
+   - stage 1 - Bulbasaur
+      ![ex_screenshot](./img/monsterfiles/Charmander/Idle.png)
+   - stage 2 - Charmander
+      ![ex_screenshot](./img/monsterfiles/Squirtle/Idle.png)
+   - stage 3 - Squirtle
+      ![ex_screenshot](./img/monsterfiles/Ivysaur/Idle.png)
+   - stage 4 - Ivysaur
+      ![ex_screenshot](./img/monsterfiles/Charmeleon/Idle.png)
+   - stage 5 - Charmeleon
+      ![ex_screenshot](./img/monsterfiles/Wartortle/Idle.png)
+   - stage 6 - Wartortle
+      ![ex_screenshot](./img/monsterfiles/Venusaur/Idle.png)
+   - stage 7 - Venusaur
+      ![ex_screenshot](./img/monsterfiles/Charizard/Idle.png)
+   - stage 8 - Charizard
+      ![ex_screenshot](./img/monsterfiles/Blastoise/Idle.png)
+   - stage 9 - Blastoise
